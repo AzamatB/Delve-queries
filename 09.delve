@@ -1,0 +1,18 @@
+/// Other Medium/Hard SQL Practice Problems
+// #1: Histograms
+def sessions = {
+   (1, 23);
+   (2, 453);
+   (3, 27);
+   (4, 29);
+   (5, 57);
+   (6, 59);
+   (7, 454);
+   (8, 451)
+}
+
+def band_size = 5
+def session_bins(bin, id) = ∃(len : sessions(id, len) ∧ bin = floor_divide[len, band_size])
+def hist = bin : count[session_bins[bin]]
+def histogram(bin_rng, counts) = ∃(bin : hist(bin, counts) ∧
+                                   bin_rng = concat[concat[string[band_size*bin], "-"], string[band_size*(bin+1)]])

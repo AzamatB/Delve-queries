@@ -1,0 +1,27 @@
+/// Self-Join Practice Problems
+// #5: Rolling Averages
+def sign_ups = {
+   (2018-01-01, 10);
+   (2018-01-02, 20);
+   (2018-01-03, 50);
+   (2018-01-04, 70);
+   (2018-01-05, 80);
+   (2018-01-06, 30);
+   (2018-01-07, 10);
+   (2018-01-08, 15);
+   (2018-01-09, 35);
+   (2018-01-10, 65);
+   (2018-01-11, 95);
+   (2018-01-12, 25);
+   (2018-01-13, 25);
+   (2018-01-14, 55);
+}
+
+def n = 7
+def sorted_sign_ups = sort[sign_ups]
+// recursive definition
+def res = (id ∈ 1) : sorted_sign_ups[id, _]
+def res(id, avg) = 1 < id <= n ∧ avg = (res[id-1]*(id-1) + sorted_sign_ups[id, _])/id
+def res(id, roll_avg) = id > n ∧ roll_avg = res[id-1] + (sorted_sign_ups[id, _] - sorted_sign_ups[id-n, _])/n
+
+def result(date, roll_avg) = ∃(id : sorted_sign_ups(id, date, _) ∧ res(id, roll_avg))

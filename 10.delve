@@ -1,0 +1,19 @@
+/// Other Medium/Hard SQL Practice Problems
+// #2: Cross Join
+def streams = {
+   ("NC", 34569);
+   ("SC", 33999);
+   ("CA", 98324);
+   ("MA", 19345)
+}
+// Part 1
+def threshold = 1000
+def result1(state1, state2) = (state1 != state2) ∧
+                             ∃(stream1, stream2 : streams(state1, stream1) ∧
+                                                  streams(state2, stream2) ∧
+                                                  abs[stream1 - stream2] <= threshold)
+// Part 2
+def result2(state1, state2) = (state1 > state2) ∧
+                             ∃(stream1, stream2 : streams(state1, stream1) ∧
+                                                  streams(state2, stream2) ∧
+                                                  abs[stream1 - stream2] <= threshold)

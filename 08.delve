@@ -1,0 +1,26 @@
+/// Window Function Practice Problems
+// #2: Average and Rank with a Window Function
+def salaries = {
+   ("develop"  , 11, 5200);
+   ("develop"  ,  7, 4200);
+   ("develop"  ,  9, 4500);
+   ("develop"  ,  8, 6000);
+   ("develop"  , 10, 5200);
+   ("develop"  , 15, 5200);
+   ("develop"  , 16, 5200);
+   ("personnel",  5, 3500);
+   ("personnel",  2, 3900);
+   ("sales"    ,  3, 4800);
+   ("sales"    ,  1, 5000);
+   ("sales"    ,  4, 4800);
+}
+// Part 1
+def avg_sals = dep : mean[salaries[dep]]
+def avg_salaries(dep, avg_salary) = ∃(avg_sal : avg_sals(dep, avg_sal) ∧ avg_salary = round[:ROUND_NEAREST, avg_sal])
+def result1(dep, empno, salary, avg_salary) = salaries(dep, empno, salary) ∧
+                                              avg_salaries(dep, avg_salary)
+// Part 2
+def salaries_(dep, salary, empno) = salaries(dep, empno, salary)
+def ranks = dep : reverse_sort[salaries_[dep]]
+@inline def get_rank[dep, salary] = Min[rank : ranks(dep, rank, salary, _)]
+def result2(dep, empno, salary, rank) = ranks(dep, _, salary, empno) ∧ rank = get_rank[dep, salary]

@@ -1,0 +1,22 @@
+/// Self-Join Practice Problems
+// #6: Multiple Join Conditions
+// Task: Write a query to get the response time per email (id) sent to zach@g.com.
+// Do not include ids that did not receive a response from zach@g.com.
+// Assume each email thread has a unique subject.
+// Keep in mind a thread may have multiple responses back-and-forth between zach@g.com and another email address.
+def fmt = "YYYY-mm-dd HH:MM:SS"
+def emails = {
+   (1, "Yosemite", "zach@g.com"  , "thomas@g.com", parse_datetime["2018-01-02 12:45:03", fmt]);
+   (2, "Big Sur" , "sarah@g.com" , "thomas@g.com", parse_datetime["2018-01-02 16:30:01", fmt]);
+   (3, "Yosemite", "thomas@g.com", "zach@g.com"  , parse_datetime["2018-01-02 16:35:04", fmt]);
+   (4, "Running" , "jill@g.com"  , "zach@g.com"  , parse_datetime["2018-01-03 08:12:45", fmt]);
+   (5, "Yosemite", "zach@g.com"  , "thomas@g.com", parse_datetime["2018-01-03 14:02:01", fmt]);
+   (6, "Yosemite", "thomas@g.com", "zach@g.com"  , parse_datetime["2018-01-03 15:01:05", fmt]);
+}
+// ideally, this would be solved by the following query, but currently (as of 2021–03-04) it does not work,
+// since subtraction between two datetimes (ts2 - ts1 in the query) that yeilds time period is not implemented.
+id, rt : ∃(subj, fr, to ∈ "zach@g.com", ts1 : emails(id, subj, fr, to, ts1) ∧
+                                              ∃(ts2 : emails(_, subj, to, fr, ts2) ∧
+                                              rt = ts2 - ts1))
+// Alternatively, this can also be worked around, if something like following would work, i.e. if there was a way to construct date/datetime from a set of integers representing year, month, day, etc.
+def d ∈ Date : ((date_year[d] = 2020) ∧ (date_month[d] = 11) ∧ (date_day[d] = 23))

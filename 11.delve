@@ -1,0 +1,13 @@
+/// Other Medium/Hard SQL Practice Problems
+// #3: Advancing Counting
+def table = {
+   (1, "a");
+   (1, "b");
+   (1, "b");
+   (2, "b");
+   (3, "a")
+}
+
+def table1("b", user) = table(user, "b")
+def table1("a", user) = ¬table(user, "b") ∧ table(user, "a")
+def result = class : count[table1[class]]

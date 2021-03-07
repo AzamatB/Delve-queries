@@ -1,0 +1,17 @@
+/// Self-Join Practice Problems
+// #2: Tree Structure Labeling
+def tree = {
+   (1, 2);
+   (2, 5);
+   (3, 5);
+   (4, 3);
+   (5, 'n');
+}
+
+def roots(node) = tree(node, 'n')
+def leafs(node) = tree(node, _) ∧ ¬tree(_, node)
+def inners(inner) = tree(inner, _) ∧ ¬(roots(inner) ∨ leafs(inner))
+
+def labels = roots, "root"
+def labels = inners, "inner"
+def labels = leafs, "leaf"
